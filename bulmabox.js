@@ -45,7 +45,7 @@ bulmabox.sortParams = function (a, b, c, d) {
 };
 
 bulmabox.alert = function (a, b, c) {
-    params = bulmabox.sortParams(a, b, c);
+    var params = bulmabox.sortParams(a, b, c);
     if (!params.cb) {
         params.cb = function () {};
     }
@@ -54,20 +54,20 @@ bulmabox.alert = function (a, b, c) {
 };
 
 bulmabox.confirm = function (a, b, c) {
-    params = bulmabox.sortParams(a, b, c, true);
+    var params = bulmabox.sortParams(a, b, c, true);
     var btns = '<button class=\'button is-success\' onclick=\'bulmabox.runCb(params.cb,true)\'>Okay</button><button class=\'button is-danger\' onclick=\'bulmabox.runCb(params.cb,false)\'>Cancel</button>';
     bulmabox.dialog(params.tt, params.ms, btns);
 };
 
 bulmabox.prompt = function (a, b, c) {
-    params = bulmabox.sortParams(a, b, c, true);
+    var params = bulmabox.sortParams(a, b, c, true);
     params.ms += '<br>\n    <div class=\'field\'>\n        <div class=\'control\'>\n            <input type="text" id="bulmabox-diag-txt" class=\'input\'>\n        </div>\n    </div>';
     var btns = '<button class=\'button is-success\' onclick=\'bulmabox.runCb(params.cb,document.querySelector("#bulmabox-diag-txt").value)\'>Okay</button><button class=\'button is-danger\' onclick=\'bulmabox.runCb(params.cb,false)\'>Cancel</button>';
     bulmabox.dialog(params.tt, params.ms, btns);
 };
 
 bulmabox.custom = function (a, b, c, d) {
-    params = bulmabox.sortParams(a, b, c);
+    var params = bulmabox.sortParams(a, b, c);
     if (!d) {
         d = '<button class=\'button is-info\' onclick=\'bulmabox.runCb(params.cb,true)\'>Okay</button>';
     }
