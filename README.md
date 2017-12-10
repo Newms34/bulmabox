@@ -3,6 +3,7 @@
 ## Contents:
  - [About](#about)
  - [Usage](#usage)
+ - [Test](#test)
  - [Future Development](#future-development)
  - [Credits](#credits)
 
@@ -16,6 +17,7 @@ Bulmabox is a bare-bones dialog box helper in the style of Bootstrap's Bootbox, 
 ## Usage
 #### Installation
 Just download the index.js file and include it in your HTML with a `script` tag for now.
+Please note that while I've included Bulma as an NPM dependency, you're free to include it any other way if you prefer (i.e., via a cdn).
 
 #### Functions
 Right now, Bulmabox has four separate functions that you can call:
@@ -36,6 +38,11 @@ The arguments for the functions are as follows:
 
 #### Note on Custom Dialogs:
  Since the custom dialog's buttons are themselves custom, if you provide said buttons, make *sure* to call either `bulmabox.runCb(callback)` if you want your button to run your callback, or `bulmabox.kill('bulmabox-diag')` if you just want the button to close the dialog.
+
+----
+
+## Test
+I've included a sample HTML file in the `\test` folder for your convenience. 
 
 ----
 
