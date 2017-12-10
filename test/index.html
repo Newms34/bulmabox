@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>BulmaBox: A Bootbox Clone in Bulma</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    
+    <button class='button is-danger' onclick='doAlert()'>Show an alert</button>
+    <button class='button is-info' onclick='doConfirm()'>Show a confirm</button>
+    <button class='button is-warning' onclick='doPrompt()'>Show a prompt</button>
+    <button class='button is-success' onclick='doCustom()'>Show custom dialog</button>
+    <hr>
+    <div id='result'>Result of dialog: none yet!</div>
+    <script src="../bulmabox.min.js"></script>
+    <script src="test.js"></script>
+</body>
+
+</html>
