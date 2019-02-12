@@ -37,7 +37,12 @@ The arguments for the functions are as follows:
  - If you use a Confirm or Prompt function and fail to provide a callback function, Bulmabox will throw an error.
 
 #### Note on Custom Dialogs:
- Since the custom dialog's buttons are themselves custom, if you provide said buttons, make *sure* to call either `bulmabox.runCb(callback)` if you want your button to run your callback, or `bulmabox.kill('bulmabox-diag')` if you just want the button to close the dialog.
+ Since the custom dialog's buttons are themselves custom, you'll need to manually run some functions if you choose to include said buttons:
+ - `bulmabox.runCb(callback,data,[keepAlive])`: This itself has a few parameters:
+    - **callback** is the name of the function you wanna run. Normally, this'll just be `bulmabox.params.cb`, which is the callback passed to Bulmabox. 
+    - **data** is any data you wanna pass to the callback. If you don't need any data, just pass `true`. 
+    - **keepAlive** (boolean) will prevent the custom dialog box from closing on running this callback. If *not* truthy, this will run `bulmabox.kill`, thus closing the modal.
+ - `bulmabox.kill('bulmabox-diag')` if you just want the button to close the dialog. You can also substitute another DOM id for `'bulmabox-diag'`, but that'll close whatever that is and *not* the bulmabox modal.
 
 ----
 
