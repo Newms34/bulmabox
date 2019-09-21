@@ -1,6 +1,6 @@
 {
   "name": "bulmabox",
-  "version": "0.2.0",
+  "version": "6.9.2",
   "description": "Dialog box creator for Bulma",
   "main": "bulmabox.js",
   "directories": {
