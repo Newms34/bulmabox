@@ -1,7 +1,14 @@
 'use strict';
 
 const bulmabox = {
-    currParams: null
+    currParams: null,
+    config: {
+        lang: 'en',
+        hfBg: '#f5f5f5',
+        centr: false,
+        mainBg: '#fff'
+
+    }
 },
     fgColorOpts = ['has-text-white', 'has-text-black', 'has-text-light', 'has-text-dark', 'has-text-primary', 'has-text-link', 'has-text-info', 'has-text-success', 'has-text-warning', 'has-text-danger'],
     bgColorOpts = ['is-white', 'is-black', 'is-light', 'is-dark', 'is-primary', 'is-link', 'is-info', 'is-success', 'is-warning', 'is-danger'],
@@ -30,9 +37,9 @@ const bulmabox = {
             "OK": "OK",
             "CANCEL": "Annuller"
         },
-        "dov":{
-            "OK":"Geh",
-            "Cancel":"Nid"
+        "dov": {
+            "OK": "Geh",
+            "CANCEL": "Nid"
         },
         "de": {
             "OK": "OK",
@@ -70,6 +77,10 @@ const bulmabox = {
             "OK": "OK",
             "CANCEL": "Annuler"
         },
+        "fakeFrench": {
+            "OK": "Oui",
+            "CANCEL": "Non"
+        },
         "he": {
             "OK": "אישור",
             "CANCEL": "ביטול"
@@ -98,9 +109,9 @@ const bulmabox = {
             "OK": "OK",
             "CANCEL": "취소"
         },
-        "la":{
-            "OK":"Sic",
-            "Cancel":"Non"
+        "la": {
+            "OK": "Sic",
+            "CANCEL": "Non"
         },
         "lt": {
             "OK": "Gerai",
@@ -127,7 +138,7 @@ const bulmabox = {
             "CANCEL": "Cancelar"
         },
         "ru": {
-          "OK": "OK",
+            "OK": "OK",
             "CANCEL": "Отмена"
         },
         "sk": {
@@ -218,7 +229,7 @@ bulmabox.sortParams = function (a, b, c, d, e) {
         }
     }
     p.op = p.op || {
-        lang: 'en'
+        lang: bulmabox.config.lang
     };
     //now error handling
     if (!p.tt) {
@@ -227,7 +238,7 @@ bulmabox.sortParams = function (a, b, c, d, e) {
     if (!p.cb && needsCb) {
         throw new Error('Bulmabox Confirms and Prompts require a callback.');
     }
-    console.log(p, needsCb)
+    // console.log('P, needsCb', p, needsCb)
     return p;
 };
 bulmabox.getBtnData = (op, btnStr, type) => {
@@ -235,19 +246,21 @@ bulmabox.getBtnData = (op, btnStr, type) => {
     //secondly, it gives us the option to pick the button color (other than defaults)
     //text first
     //firstly, if we specify the custom text, use that.
+    // console.log('GET BTN DATA', op, btnStr, type, bulmabox.config)
     let hasCustTxt = false;
     if (op.okay && op.okay.txt) {
         btnStr = btnStr.replace('Okay', op.okay.txt)
-        hasCustTxt =true;
+        hasCustTxt = true;
     }
     if (op.cancel && op.cancel.txt) {
         btnStr = btnStr.replace('Cancel', op.cancel.txt)
-        hasCustTxt =true;
+        hasCustTxt = true;
     }
     //now if we dont have custom text, and we have a language:
-    if(!hasCustTxt && op.lang && allLangs[op.lang]){
-        btnStr = btnStr.replace('Okay',allLangs[op.lang].OK).replace('Cancel',allLangs[op.lang].CANCEL)
+    if (!hasCustTxt && op.lang && allLangs[op.lang]) {
+        btnStr = btnStr.replace('Okay', allLangs[op.lang].OK).replace('Cancel', allLangs[op.lang].CANCEL)
     }
+
 
     //now colors:
     //okay btn
@@ -264,7 +277,7 @@ bulmabox.getBtnData = (op, btnStr, type) => {
             //user specified a color option the bg color for Okay btn, and it's one of the bulma classes
             btnStr = btnStr.replace(`is-${defCol}-REPL`, op.okay.colors.bg)
         } else if (op.okay.colors.bg) {
-            console.log('replacing bg color!', op.okay.colors.bg)
+            // console.log('replacing bg color!', op.okay.colors.bg)
             btnStr = btnStr.replace(`cust-bg-style`, `background:${op.okay.colors.bg}`)
         }
     }
@@ -280,14 +293,15 @@ bulmabox.getBtnData = (op, btnStr, type) => {
             //user specified a color option the bg color for cancel btn, and it's one of the bulma classes
             btnStr = btnStr.replace(`is-danger-REPL`, op.cancel.colors.bg)
         } else if (op.cancel.colors.bg) {
-            console.log('replacing bg color!', op.cancel.colors.bg)
+            // console.log('replacing bg color!', op.cancel.colors.bg)
             btnStr = btnStr.replace(`cust-bg-style`, `background:${op.cancel.colors.bg}`)
         }
     }
-    btnStr = btnStr.replace(/cust-fg-style/g,'').replace(/cust-bg-style/g,'').replace(/-REPL/g,'').replace(/has-text-okay/g,'').replace(/has-text-cancel/g,'')
-    console.log(op, btnStr)
+    btnStr = btnStr.replace(/cust-fg-style/g, '').replace(/cust-bg-style/g, '').replace(/-REPL/g, '').replace(/has-text-okay/g, '').replace(/has-text-cancel/g, '')
+    // console.log(op, btnStr)
     return btnStr;
 }
+
 bulmabox.alert = (a, b, c, e) => {
     bulmabox.params = bulmabox.sortParams(a, b, c, false, e);
     if (!bulmabox.params.cb) {
@@ -320,6 +334,7 @@ bulmabox.custom = (a, b, c, d, e) => {
     bulmabox.dialog(bulmabox.params.tt, bulmabox.params.ms, btns);
 };
 bulmabox.kill = (id) => {
+    // console.log('attempting to kill', id)
     const el = document.querySelector('#' + id);
     bulmabox.params = null;
     el.parentNode.removeChild(el);
@@ -330,11 +345,58 @@ bulmabox.runCb = (cb, data, keepAlive) => {
     bulmabox.kill('bulmabox-diag');
 };
 
+bulmabox.opts = (o) => {
+    if (o && !!o.globalAlert) {
+        window.alert = bulmabox.alert;
+    }
+    if (o && o.hfBg) {
+        bulmabox.config.hfBg = o.hfBg;
+    } else if (o && o.hfBg == null) {
+        bulmabox.config.hfBg = '#f5f5f5';
+    }
+    if (o && o.mainBg) {
+        bulmabox.config.mainBg = o.mainBg
+    } else if (o && o.hfBg === null) {
+        bulmabox.config.mainBg = '#fff';
+    }
+    if (o.lang && Object.keys(allLangs).includes(o.lang)) {
+        bulmabox.config.lang = o.lang;
+    }
+    if (o.centr || o.centr === false) {
+        bulmabox.config.centr = o.centr
+    }
+    if (o && !!o.reset) {
+        //override and reset overrides
+        bulmabox.config.lang = 'en';
+        bulmabox.config.hfBg = '#f5f5f5';
+        bulmabox.config.centr = false;
+        bulmabox.config.mainBg = '#fff';
+    }
+}
+
 bulmabox.dialog = (tt, msg, btns) => {
     //actual function to draw the dialog box, used by all 4(?) dialog generators including the custom one
+    // console.log('tt', tt, 'msg', msg, 'btns', btns)
     const diagDiv = document.createElement('div');
     diagDiv.className = 'modal is-active';
     diagDiv.id = 'bulmabox-diag';
-    diagDiv.innerHTML = '\n<div class="modal-background" onclick=\'bulmabox.kill("' + diagDiv.id + '")\'></div>\n    <div class="modal-card">\n        <header class="modal-card-head">\n            <p class="modal-card-title">' + tt + '</p>\n            <button class="delete" aria-label="close" onclick=\'bulmabox.kill("' + diagDiv.id + '")\'></button>\n        </header>\n        <section class="modal-card-body">\n            ' + (msg || '') + '\n        </section>\n        <footer class="modal-card-foot">\n            ' + btns + '\n        </footer>\n    </div>\n\t';
+    // diagDiv.innerHTML = '\n<div class="modal-background" onclick=\'bulmabox.kill("' + diagDiv.id + '")\'></div>\n    <div class="modal-card">\n        <header class="modal-card-head">\n            <p class="modal-card-title">' + tt + '</p>\n            <button class="delete" aria-label="close" onclick=\'bulmabox.kill("' + diagDiv.id + '")\'></button>\n        </header>\n        <section class="modal-card-body">\n            ' + (msg || '') + '\n        </section>\n        <footer class="modal-card-foot">\n            ' + btns + '\n        </footer>\n    </div>\n\t';
+    const headr = msg ? `<header class="modal-card-head" style='background:${bulmabox.config.hfBg};${bulmabox.config.centr ? "text-align:center" : ''}'>
+    <p class="modal-card-title">${tt}</p>
+    <button class="delete" aria-label='close' onclick="bulmabox.kill('${diagDiv.id}')"></button>
+</header>`: `<header class="modal-card-head has-background-white" style='background:${bulmabox.config.hfBg};${bulmabox.config.centr ? "text-align:center" : ''}'>
+<p class="modal-card-title has-background-white"></p>
+<button class="delete" aria-label='close' onclick="bulmabox.kill('${diagDiv.id}')"></button>
+</header>`
+    diagDiv.innerHTML = `<div class="modal-background" onclick="bulmabox.kill('${diagDiv.id}')"></div>
+    <div class="modal-card" style='top:10%;'>
+    ${headr}
+    <section class="modal-card-body" style='background: ${bulmabox.config.mainBg}'>
+        ${msg ? msg : tt}
+    </section>
+    <footer class="modal-card-foot" style='background:${bulmabox.config.hfBg};${bulmabox.config.centr ? "text-align:center" : ''}'>
+        ${btns}
+    </footer>
+</div>`
     document.body.append(diagDiv);
 };

@@ -8,17 +8,156 @@
 </head>
 
 <body>
-    <h3>Generic Dialogs</h3>
-    <button class='button is-danger' onclick='doAlert()'>Show an alert</button>
-    <button class='button is-info' onclick='doConfirm()'>Show a confirm</button>
-    <button class='button is-warning' onclick='doPrompt()'>Show a prompt</button>
-    <button class='button is-success' onclick='doCustom()'>Show custom dialog</button>
+    <div class="message">
+        <div class="message-header">Generic (Default) Dialogs</div>
+        <div class="message-body">
+            <table class="table is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>Button</th>
+                        <th>Syntax*</th>
+                        <th>Additonal Info</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <button class='button is-link' onclick='doAlert()'>Show an alert</button>
+                        </td>
+                        <td><code>bulmabox.alert(<i>'Some Title'</i>,'Some Message',callbackFn(),options)</code></td><td>
+                            A regular old alert button. Can accept a callback, but does not need one!
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class='button is-link' onclick='doConfirm()'>Show a confirm</button>
+                        </td>
+                        <td><code>bulmabox.confirm(<i>'Some Title'</i>,'Some Message',<i>callbackFn()</i>,options)</code></td><td>
+                            A confirm dialog, providing continue ("Ok") or stop ("Cancel") options. <i>Must</i> have a
+                            callback (or Bulmabox will throw an error).
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class='button is-link' onclick='doPrompt()'>Show a prompt</button>
+                        </td>
+                        <td><code>bulmabox.prompt(<i>'Some Title'</i>,'Some Message',<i>callbackFn()</i>,options)</code></td><td>
+                            A prompt, for telling us something. <i>Must</i> have a callback (or Bulmabox will throw an
+                            error).
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class='button is-link' onclick='doCustom()'>Show custom dialog</button>
+                        </td>
+                        <td><code>bulmabox.custom(<i>'Some Title'</i>,'Some Message',<i>callbackFn()</i>,options)</code></td><td>
+                            Fancy custom dialog! You can put anything in here! <i>Must</i> have a callback (or Bulmabox
+                            will throw an error).
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="is-size-7">*Italicized parameters are <i>required</i>.</div>
+
+        </div>
+    </div>
     <hr>
-    <h3>Custom Language Dialogs</h3>
-    <button class='button is-primary' onclick='doLatin()'>Show Latin alert</button>
-    <button class='button is-link' onclick='doBtns()'>Show Custom Buttons Confirm</button>
+    <div class="message">
+        <div class="message-header">Custom Language and Butttons</div>
+        <div class="message-body">
+            <table class="table is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>Button</th>
+                        <th>Syntax*</th>
+                        <th>Additonal Info</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <button class='button is-link' onclick='doLatin()'>Show Latin alert</button>
+                        </td>
+                        <td><code>bulmabox.alert(<i>'Some Title'</i>,'Some Message',callbackFn(),{lang:'language code'})</code></td><td>
+                            By passing <code>{lang:'la'}</code> as the final option to alerts, confirms, propmts, and
+                            custom dialogs, we can set our button language.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class='button is-link' onclick='doBtns()'>Show Custom Confirm</button>
+                        </td>
+                        <td><code>bulmabox.confirm(<i>'Some Title'</i>,'Some Message',callbackFn(),{okay:{text:'Indeed!',colors:{fg:'blue',bg:'green'}}})</code></td><td>
+                            Or we can just completely override the button colors and text!
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="is-size-7">*Italicized parameters are <i>required</i>.</div>
+        </div>
+    </div>
     <hr>
-    <div id='result'>Result of dialog: none yet!</div>
+    <div class="message">
+        <div class="message-header">Global Configuration</div>
+        <div class="message-body">
+            <table class="table is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>Button</th>
+                        <th>Syntax</th>
+                        <th>Additonal Info</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <button class='button is-link'
+                                onclick='doGlobal()'>Override&nbsp;<code>window.alert()</code></button>
+                        </td>
+                        <td><code>bulmabox.opts({globalAlert:true})</code></td><td>
+                            Override the default window.alert() method. 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class='button is-link' onclick='doGlobalFrench()'>Set Global Language</button>
+                        </td>
+                        <td><code>bulmabox.opts({lang:'fr'})</code></td><td>
+                                Set Global Language to 'Oui' and 'Non' (French). Note that French buttons normally are "OK" and "Annuler". I'm doing this so that you can see the global overrides!
+                                <br>Also, the language must be in my list of languages.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class='button is-link' onclick='doGlobalHFBg()'>Set global header/footer color</button>
+                        </td>
+                        <td><code>bulmabox.opts({hfBg:'#bbf'})</code></td><td>
+                            We can set the global background for the dialogs' header and footer.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class='button is-link' onclick='doGlobalMBg()'>Set global main color</button>
+                        </td>
+                        <td><code>bulmabox.opts({mainBg:'#bfb'})</code></td><td>
+                            We can also set the main background. Note that for this (and the header/footer backgrounds), we're simply passing whatever value you give it to the CSS <code>background</code> property, so you <i>can</i> use images if you want!
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class='button is-link' onclick='doGlobalReset()'>Reset Globals</button>
+                        </td>
+                        <td><code>bulmabox.opts({reset:true})</code></td><td>
+                            Finally, we can just reset everything. Note that this overrides everything else except the global alerts!
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+    </div>
+    <hr>
+    <div id='result' class='message message-body'>Result of dialog: none yet!</div>
+    </div>
+
     <script src="../bulmabox.min.js"></script>
     <script src="test.js"></script>
 </body>

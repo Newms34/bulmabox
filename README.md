@@ -57,6 +57,15 @@ The "options" object passed to the functions has a few options itself:
 * **Button Language**: `lang:"fr"`.This allows you to pick the language of the buttons, from 40 available languages. Please note that I only speak Latin and English, so I cannot guarantee the translations (which I stole from bootbox. Thanks guys!).
 * **Custom Button Text**: If, as part of the `okay` or `cancel` objects, you pass a `txt` parameter, that will be used to replace the `okay` or `cancel` button text as appropriate. Note that if you do this, it will take precedence over custom language settings. So doing `{lang:'fr',cancel:{txt:'Nah Im good!'}}` will create a dialog with a cancel button that says "Nah Im good", *not* "Annuler".
 
+#### Global Options (New!):
+You can now set global options for four parameters:
+ * The language: `bulmbox.opts({lang:'fr'})`
+ * The header and footer background: `bulmabox.opts({hfBg:'red'})`
+ * The main background: `bulmabox.opts({mainBg:'blue'})`
+ * Centering the text in the header and footer: `bulmabox.opts({centr:true})`
+
+ Finally, you can reset all of this by just running `bulmabox.opts({reset:true})`. Finally, you can override the global `window.alert()` method by running `bulmabox.opts({globalAlert:true})` 
+
 ##### **_Examples:_**
 Dialog with an okay button of "Sic" and a cancel button of "Non"
 
@@ -85,7 +94,7 @@ Dialog with an okay button with blue fg, `is-success` bg, and Latin buttons:
 ----
 
 ## Tests
-I've included a sample HTML file in the `\test` folder for your convenience. 
+I've included a sample HTML file in the `\test` folder for your convenience. It's also got some nice tables to explain all the nitty-gritty details.
 
 ----
 
