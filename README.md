@@ -59,7 +59,7 @@ The "options" object passed to the functions has a few options itself:
 
 #### Global Options (New!):
 You can now set global options for four parameters:
- * The language: `bulmbox.opts({lang:'fr'})`
+ * The language: `bulmabox.opts({lang:'fr'})`
  * The header and footer background: `bulmabox.opts({hfBg:'red'})`
  * The main background: `bulmabox.opts({mainBg:'blue'})`
  * Centering the text in the header and footer: `bulmabox.opts({centr:true})`
