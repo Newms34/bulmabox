@@ -124,6 +124,7 @@ I've included a sample HTML file in the `\test` folder for your convenience. It'
 ----
 
 ## Credits
+ - Bulma. The dudes that made this possible, by, you know, *creating* Bulma. Thanks guys! Go check em out over at [their site](https://bulma.io/). 
  - Bootstrap (the source of the original Bootbox) was created by the lovely folks over at [The Bootstrap site](https://getbootstrap.com/).
  - [Bootbox](http://bootboxjs.com/) was created by the awesome [Nick Payne](http://twitter.com/makeusabrew). A lot of the credit for Bulmabox's inspiration goes to him. As mentioned, I also stole the i18n stuff from him.
  - Finally, Bulmabox itself was written by me, [David Newman](https://github.com/Newms34/). Hi!
