@@ -32,19 +32,25 @@ const doAlert = () => {
             colors: { fg: '#ff0', bg: '#900' }
         }
     })
+}, doFont = () => {
+    bulmabox.alert('Custom Font', `Sometimes the default font-family is boring. Don't worry; we got you covered!`, {
+        okay: {
+            font:'Papyrus'
+        }
+    })
 }, doGlobal = () => {
-    bulmabox.opts({globalAlert:true});
+    bulmabox.opts({ globalAlert: true });
     alert('This message was produced with bulmabox! Try it in the console if you want: alert("some text")!')
 }, doGlobalFrench = () => {
-    bulmabox.opts({lang:'fakeFrench'});
-   bulmabox.alert('Set Global language','The global button language is now (fake) French!!')
+    bulmabox.opts({ lang: 'fakeFrench' });
+    bulmabox.alert('Set Global language', 'The global button language is now (fake) French!!')
 }, doGlobalHFBg = () => {
-    bulmabox.opts({hfBg:'#bbf'});
-   bulmabox.alert('Set Global Header/Footer Background','The global header and footer backgrounds are now blue!')
+    bulmabox.opts({ hfBg: '#bbf' });
+    bulmabox.alert('Set Global Header/Footer Background', 'The global header and footer backgrounds are now blue!')
 }, doGlobalMBg = () => {
-    bulmabox.opts({mainBg:'#bfb'});
-   bulmabox.alert('Set Global Main Background','The global main background is now green!')
+    bulmabox.opts({ mainBg: '#bfb' });
+    bulmabox.alert('Set Global Main Background', 'The global main background is now green!')
 }, doGlobalReset = () => {
-    bulmabox.opts({reset:true});
-   bulmabox.alert('Reset Globals',"Everything's back to normal!")
+    bulmabox.opts({ reset: true });
+    bulmabox.alert('Reset Globals', "Everything's back to normal!")
 };

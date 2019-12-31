@@ -55,9 +55,10 @@ The "options" object passed to the functions has a few options itself:
     * Bulma class names (i.e., `is-success` for background, or `has-text-success` for foreground).
     * Regular old color codes (i.e., `#fcb340` or `rgb(252,179,64)`)
 * **Button Language**: `lang:"fr"`.This allows you to pick the language of the buttons, from 40 available languages. Please note that I only speak Latin and English, so I cannot guarantee the translations (which I stole from bootbox. Thanks guys!).
-* **Custom Button Text**: If, as part of the `okay` or `cancel` objects, you pass a `txt` parameter, that will be used to replace the `okay` or `cancel` button text as appropriate. Note that if you do this, it will take precedence over custom language settings. So doing `{lang:'fr',cancel:{txt:'Nah Im good!'}}` will create a dialog with a cancel button that says "Nah Im good", *not* "Annuler".
+* **Button Text**: If, as part of the `okay` or `cancel` objects, you pass a `txt` parameter, that will be used to replace the `okay` or `cancel` button text as appropriate. Note that if you do this, it will take precedence over custom language settings. So doing `{lang:'fr',cancel:{txt:'Nah Im good!'}}` will create a dialog with a cancel button that says "Nah Im good", *not* "Annuler".
+* **Button Font (New!)**: The default Bulma font is easy to read, but what if you don't want easy? What if you want your buttons in Klingon or Quenya? You can do that! Just pass a `font` property to any buttons you wanna re-style (e.g., `{okay:{font:'Comic Sans MS'}}`). Please note that this is fed directly to the CSS `font-family` property, so doing stuff like '24pt italic Comic Sans MS'... probably won't work.
 
-#### Global Options (New!):
+#### Global Options (New-ish!):
 You can now set global options for four parameters:
  * The language: `bulmbox.opts({lang:'fr'})`
  * The header and footer background: `bulmabox.opts({hfBg:'red'})`

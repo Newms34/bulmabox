@@ -244,9 +244,10 @@ bulmabox.sortParams = function (a, b, c, d, e) {
 bulmabox.getBtnData = (op, btnStr, type) => {
     //this fn most importantly gets the appropriate language translation for each button 
     //secondly, it gives us the option to pick the button color (other than defaults)
+    //finally, it gets font choice(s), if specified
     //text first
     //firstly, if we specify the custom text, use that.
-    // console.log('GET BTN DATA', op, btnStr, type, bulmabox.config)
+    console.log('GET BTN DATA', op, btnStr, type, bulmabox.config)
     let hasCustTxt = false;
     if (op.okay && op.okay.txt) {
         btnStr = btnStr.replace('Okay', op.okay.txt)
@@ -260,7 +261,6 @@ bulmabox.getBtnData = (op, btnStr, type) => {
     if (!hasCustTxt && op.lang && allLangs[op.lang]) {
         btnStr = btnStr.replace('Okay', allLangs[op.lang].OK).replace('Cancel', allLangs[op.lang].CANCEL)
     }
-
 
     //now colors:
     //okay btn
@@ -297,8 +297,18 @@ bulmabox.getBtnData = (op, btnStr, type) => {
             btnStr = btnStr.replace(`cust-bg-style`, `background:${op.cancel.colors.bg}`)
         }
     }
-    btnStr = btnStr.replace(/cust-fg-style/g, '').replace(/cust-bg-style/g, '').replace(/-REPL/g, '').replace(/has-text-okay/g, '').replace(/has-text-cancel/g, '')
-    // console.log(op, btnStr)
+
+    //fonts
+    if(op.okay && op.okay.font){
+        console.log('FONT',op.okay,'BEFORE REPLACE',btnStr)
+        btnStr = btnStr.replace(`cust-font-style;`,`font-family:${op.okay.font}`);
+    }
+    if(op.cancel && op.cancel.font){
+        btnStr = btnStr.replace(`cust-font-style;`,`font-family:${op.cancel.font}`);
+    }
+    //finally, get rid of any remaining "custom" placeholders
+    btnStr = btnStr.replace(/cust-fg-style;/g, '').replace(/cust-bg-style;/g, '').replace(/-REPL/g, '').replace(/has-text-okay/g, '').replace(/has-text-cancel/g, '')
+    console.log(op, btnStr)
     return btnStr;
 }
 
@@ -307,20 +317,20 @@ bulmabox.alert = (a, b, c, e) => {
     if (!bulmabox.params.cb) {
         bulmabox.params.cb = function () { };
     }
-    const btns = bulmabox.getBtnData(bulmabox.params.op, `<button class='button is-info-REPL has-text-okay-REPL' onclick='bulmabox.runCb(bulmabox.params.cb,true)' style='cust-bg-style;cust-fg-style;'>Okay</button>`, 'alert');
+    const btns = bulmabox.getBtnData(bulmabox.params.op, `<button class='button is-info-REPL has-text-okay-REPL' onclick='bulmabox.runCb(bulmabox.params.cb,true)' style='cust-bg-style;cust-fg-style;cust-font-style;'>Okay</button>`, 'alert');
     bulmabox.dialog(bulmabox.params.tt, bulmabox.params.ms, btns);
 };
 
 bulmabox.confirm = (a, b, c, e) => {
     bulmabox.params = bulmabox.sortParams(a, b, c, true, e);
-    const btns = bulmabox.getBtnData(bulmabox.params.op, `<button class='button is-success-REPL has-text-okay-REPL' onclick='bulmabox.runCb(bulmabox.params.cb,true)' style='cust-bg-style;cust-fg-style;'>Okay</button><button class='button is-danger-REPL has-text-cancel-REPL' onclick='bulmabox.runCb(bulmabox.params.cb,false)' style='cust-bg-style;cust-fg-style;'>Cancel</button>`, 'confirm');
+    const btns = bulmabox.getBtnData(bulmabox.params.op, `<button class='button is-success-REPL has-text-okay-REPL' onclick='bulmabox.runCb(bulmabox.params.cb,true)' style='cust-bg-style;cust-fg-style;cust-font-style;'>Okay</button><button class='button is-danger-REPL has-text-cancel-REPL' onclick='bulmabox.runCb(bulmabox.params.cb,false)' style='cust-bg-style;cust-fg-style;cust-font-style;'>Cancel</button>`, 'confirm');
     bulmabox.dialog(bulmabox.params.tt, bulmabox.params.ms, btns);
 };
 
 bulmabox.prompt = (a, b, c, e) => {
     bulmabox.params = bulmabox.sortParams(a, b, c, true, e);
     bulmabox.params.ms += `<br>\n    <div class='field'>\n        <div class='control'>\n            <input type="text" id="bulmabox-diag-txt" class='input'>\n        </div>\n    </div>`;
-    const btns = bulmabox.getBtnData(bulmabox.params.op, `<button class='button is-success-REPL has-text-okay-REPL' onclick='bulmabox.runCb(bulmabox.params.cb,document.querySelector("#bulmabox-diag-txt").value)' style='cust-bg-style;cust-fg-style;'>Okay</button><button class='button is-danger-REPL has-text-cancel-REPL' onclick='bulmabox.runCb(bulmabox.params.cb,false)' style='cust-bg-style;cust-fg-style;'>Cancel</button>`, 'prompt');
+    const btns = bulmabox.getBtnData(bulmabox.params.op, `<button class='button is-success-REPL has-text-okay-REPL' onclick='bulmabox.runCb(bulmabox.params.cb,document.querySelector("#bulmabox-diag-txt").value)' style='cust-bg-style;cust-fg-style;cust-font-style;'>Okay</button><button class='button is-danger-REPL has-text-cancel-REPL' onclick='bulmabox.runCb(bulmabox.params.cb,false)' style='cust-bg-style;cust-fg-style;cust-font-style;'>Cancel</button>`, 'prompt');
     bulmabox.dialog(bulmabox.params.tt, bulmabox.params.ms, btns);
 };
 
@@ -328,7 +338,7 @@ bulmabox.custom = (a, b, c, d, e) => {
     d = d || {};
     bulmabox.params = bulmabox.sortParams(a, b, c, false, e);
     if (!d) {
-        d = bulmabox.getBtnData(bulmabox.params.op, `<button class='button is-info-REPL has-text-okay-REPL' onclick='bulmabox.runCb(bulmabox.params.cb,true)' style='cust-bg-style;cust-fg-style;'>Okay</button>`, 'custom');
+        d = bulmabox.getBtnData(bulmabox.params.op, `<button class='button is-info-REPL has-text-okay-REPL' onclick='bulmabox.runCb(bulmabox.params.cb,true)' style='cust-bg-style;cust-fg-style;cust-font-style;'>Okay</button>`, 'custom');
     }
     const btns = d;
     bulmabox.dialog(bulmabox.params.tt, bulmabox.params.ms, btns);

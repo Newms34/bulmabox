@@ -79,16 +79,24 @@
                             <button class='button is-link' onclick='doLatin()'>Show Latin alert</button>
                         </td>
                         <td><code>bulmabox.alert(<i>'Some Title'</i>,'Some Message',callbackFn(),{lang:'language code'})</code></td><td>
-                            By passing <code>{lang:'la'}</code> as the final option to alerts, confirms, propmts, and
+                            By passing <code>{lang:'la'}</code> as the final option to alerts, confirms, prompts, and
                             custom dialogs, we can set our button language.
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <button class='button is-link' onclick='doBtns()'>Show Custom Confirm</button>
+                            <button class='button is-link' onclick='doBtns()'>Show Custom Colors and Text</button>
                         </td>
                         <td><code>bulmabox.confirm(<i>'Some Title'</i>,'Some Message',callbackFn(),{okay:{text:'Indeed!',colors:{fg:'blue',bg:'green'}}})</code></td><td>
                             Or we can just completely override the button colors and text!
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class='button is-link' onclick='doFont()'>Show Custom Font</button>
+                        </td>
+                        <td><code>bulmabox.alert(<i>'Some Title'</i>,'Some Message',callbackFn(),{okay:{font:'some CSS Font'}})</code></td><td>
+                            Want a specific font? We can do that too!
                         </td>
                     </tr>
                 </tbody>
@@ -158,7 +166,7 @@
     <div id='result' class='message message-body'>Result of dialog: none yet!</div>
     </div>
 
-    <script src="../bulmabox.min.js"></script>
+    <script src="../bulmabox.js"></script>
     <script src="test.js"></script>
 </body>
 
