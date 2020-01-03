@@ -18,7 +18,7 @@ Bulmabox is a bare-bones dialog box helper in the style of Bootstrap's Bootbox, 
 ----
 
 ## Updates
-You may notice that bulmabox has recently been update to version 7.0.0. Despite the big semantic version change (6 to 7), there shouldn't be any *major* differences on your end. However, a lot of stuff in the machinery has been replaced/reorganized to make bulmabox more stream-lined. Stuff you *should* know:
+You may notice that bulmabox has recently been updated to version 7+. Despite the big semantic version change (6 to 7), there shouldn't be any *major* differences on your end. However, a lot of stuff in the machinery has been replaced/reorganized to make bulmabox more stream-lined. Stuff you *should* know:
  - You can now specify fonts. See below under `Special Notes` --> `Options` for details.
  - Button creation has been centralized. This *shouldn't* mean anything for you, but if anything breaks, please let me know via creating an issue!
 
@@ -81,8 +81,8 @@ You can set global options for four parameters:
  * The header and footer background: `bulmabox.opts({hfBg:'red'})`
  * The main background: `bulmabox.opts({mainBg:'blue'})`
  * Centering the text in the header and footer: `bulmabox.opts({centr:true})`
-
  You can reset all of this by just running `bulmabox.opts({reset:true})`. 
+
  Finally, you can override the global `window.alert()` method by running `bulmabox.opts({globalAlert:true})`.
  
  If you're wondering, similar constructions do *not* work for any of the other dialogs (i.e., `window.confirm=bulmabox.confirm`), since that would require essentially pausing the browser script engine (or worse, crashing it!), which even the WHATWG people say is a bad idea (see [this link](https://html.spec.whatwg.org/multipage/webappapis.html#pause) on "pausing" as part of the `window.confirm` spec).

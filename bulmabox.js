@@ -1,17 +1,16 @@
 'use strict';
 
 const bulmabox = {
-    currParams: null,
+    params: [],
     config: {
         lang: 'en',
         hfBg: '#f5f5f5',
         centr: false,
         mainBg: '#fff'
-
     },
-    fgColorOpts:['has-text-white', 'has-text-black', 'has-text-light', 'has-text-dark', 'has-text-primary', 'has-text-link', 'has-text-info', 'has-text-success', 'has-text-warning', 'has-text-danger'],
-    bgColorOpts:['is-white', 'is-black', 'is-light', 'is-dark', 'is-primary', 'is-link', 'is-info', 'is-success', 'is-warning', 'is-danger'],
-    allLangs:{
+    fgColorOpts: ['has-text-white', 'has-text-black', 'has-text-light', 'has-text-dark', 'has-text-primary', 'has-text-link', 'has-text-info', 'has-text-success', 'has-text-warning', 'has-text-danger'],
+    bgColorOpts: ['is-white', 'is-black', 'is-light', 'is-dark', 'is-primary', 'is-link', 'is-info', 'is-success', 'is-warning', 'is-danger'],
+    allLangs: {
         "ar": {
             "OK": "موافق",
             "CANCEL": "الغاء"
@@ -192,10 +191,11 @@ bulmabox.sortParams = function (a, b, c, d, e) {
         cb: null,
         tt: null,
         ms: null,
-        op: null
+        op: null,
+        needsCb: false
     };
-    let i = 0,
-        needsCb = false;
+    let i = 0;
+    console.log('arguments', arguments)
     //calback first
     for (i = 0; i < arguments.length; i++) {
         if (typeof arguments[i] == 'function') {
@@ -218,7 +218,7 @@ bulmabox.sortParams = function (a, b, c, d, e) {
     */
     for (i = 0; i < arguments.length; i++) {
         if (typeof arguments[i] == 'boolean') {
-            needsCb = arguments[i];
+            p.needsCb = arguments[i];
             break;
         }
     }
@@ -233,15 +233,16 @@ bulmabox.sortParams = function (a, b, c, d, e) {
     };
     //now error handling
     if (!p.tt) {
-        throw new Error('Bulmabox Dialogs require at least one string parameter for the title.');
+        throw new Error('Bulmabox dialogs require at least one string parameter for the title.');
     }
-    if (!p.cb && needsCb) {
+    if (!p.cb && p.needsCb) {
         throw new Error('Bulmabox Confirms and Prompts require a callback.');
     }
-    // console.log('P, needsCb', p, needsCb)
+    p.id = Math.floor(Math.random() * 999999999).toString(32);
+    console.log('P, needsCb', p, p.needsCb)
     return p;
 };
-bulmabox.getBtnData = (op, type) => {
+bulmabox.getBtnData = (params, type) => {
     //this fn most importantly gets the appropriate language translation for each button 
     //secondly, it gives us the option to pick the button color (other than defaults)
     //finally, it gets font choice(s), if specified
@@ -249,20 +250,22 @@ bulmabox.getBtnData = (op, type) => {
     //firstly, if we specify the custom text, use that.
     // console.log('GET BTN DATA', op, type, bulmabox.config)
     /* Get btn data using options (op), type */
-    const btns = {
-        okay: `<button class='button is-success-REPL has-text-okay-REPL' onclick='bulmabox.runCb(bulmabox.params.cb,true)' style='cust-bg-style;cust-fg-style;cust-font-style;'>Okay</button>`,
+    const { op, id } = params,
+    btns = {
+        okay: `<button class='button is-success-REPL has-text-okay-REPL' onclick='bulmabox.runCb("${id}",true)' style='cust-bg-style;cust-fg-style;cust-font-style;'>Okay</button>`,
         cancel: null,
         btnList: ['okay']
     };
+    console.log('PARAMS',params,'type',type,'op',op,'id',id)
     if (type == 'confirm' || type == 'prompt') {
-        btns.cancel = `<button class='button is-danger-REPL has-text-cancel-REPL' onclick='bulmabox.runCb(bulmabox.params.cb,false)' style='cust-bg-style;cust-fg-style;cust-font-style;'>Cancel</button>`;
+        btns.cancel = `<button class='button is-danger-REPL has-text-cancel-REPL' onclick='bulmabox.runCb("${id}",false)' style='cust-bg-style;cust-fg-style;cust-font-style;'>Cancel</button>`;
         btns.btnList.push('cancel');
     }
-    if(type=='prompt'){
+    if (type == 'prompt') {
         //prompt uses a text-input value instead of just "true" as its data
-        btns.okay = btns.okay.replace('bulmabox.runCb(bulmabox.params.cb,true)',`bulmabox.runCb(bulmabox.params.cb,document.querySelector("#bulmabox-diag-txt").value)`);
-    }else if(type=='alert'){
-        btns.okay = btns.okay.replace('is-success-REPL','is-info-REPL')
+        btns.okay = btns.okay.replace(`bulmabox.runCb("${id}",true)`, `bulmabox.runCb("${id}",document.querySelector("#bulmabox-diag-txt").value)`);
+    } else if (type == 'alert') {
+        btns.okay = btns.okay.replace('is-success-REPL', 'is-info-REPL')
     }
     let hasCustTxt = false;
     if (op.okay && op.okay.txt) {
@@ -276,17 +279,17 @@ bulmabox.getBtnData = (op, type) => {
     //now if we dont have custom text, and we have a language:
     if (!hasCustTxt && op.lang && bulmabox.allLangs[op.lang]) {
         btns.okay = btns.okay.replace('Okay', bulmabox.allLangs[op.lang].OK)
-        if(!!btns.cancel){
+        if (!!btns.cancel) {
             btns.cancel.replace('Cancel', bulmabox.allLangs[op.lang].CANCEL)
         }
     }
 
     //now colors and fonts:
     //okay btn
-    
+
     if (op.okay) {
         //colors
-        if(op.okay.colors){
+        if (op.okay.colors) {
             const defCol = type == 'confirm' || type == 'prompt' ? 'success' : 'info'
             if (op.okay.colors.fg && bulmabox.fgColorOpts.includes(op.okay.colors.fg)) {
                 //user specified a color option the fg color for Okay btn, and it's one of the bulma classes
@@ -305,9 +308,9 @@ bulmabox.getBtnData = (op, type) => {
             btns.okay = btns.okay.replace(`cust-font-style;`, `font-family:${op.okay.font}`);
         }
     }
-    
+
     //cancel btn
-    if(!!btns.cancel){
+    if (!!btns.cancel) {
         if (op.cancel && op.cancel.colors) {
             //foreground
             if (op.cancel.colors.fg && bulmabox.fgColorOpts.includes(op.cancel.colors.fg)) {
@@ -328,10 +331,10 @@ bulmabox.getBtnData = (op, type) => {
             btns.cancel = btns.cancel.replace(`cust-font-style;`, `font-family:${op.cancel.font}`);
         }
     }
-    
+
     //finally, get rid of any remaining "custom" placeholders
     let btnStr = '';
-    btns.btnList.forEach(bn=>{
+    btns.btnList.forEach(bn => {
         btnStr += btns[bn].replace(/cust-fg-style;/g, '').replace(/cust-bg-style;/g, '').replace(/-REPL/g, '').replace(/has-text-okay/g, '').replace(/has-text-cancel/g, '');
     })
     // btnStr = btnStr.replace(/cust-fg-style;/g, '').replace(/cust-bg-style;/g, '').replace(/-REPL/g, '').replace(/has-text-okay/g, '').replace(/has-text-cancel/g, '')
@@ -340,48 +343,60 @@ bulmabox.getBtnData = (op, type) => {
 }
 
 bulmabox.alert = (a, b, c, e) => {
-    bulmabox.params = bulmabox.sortParams(a, b, c, false, e);
-    if (!bulmabox.params.cb) {
-        bulmabox.params.cb = function () { };
+    const theseParams = bulmabox.sortParams(a, b, c, false, e);
+    if (!theseParams.cb) {
+        theseParams.cb = function () { };
     }
-    const btns = bulmabox.getBtnData(bulmabox.params.op, 'alert');
-    bulmabox.dialog(bulmabox.params.tt, bulmabox.params.ms, btns);
+    bulmabox.params.push(theseParams);
+    const btns = bulmabox.getBtnData(theseParams, 'alert');
+    bulmabox.dialog(theseParams, btns);
 };
 
 bulmabox.confirm = (a, b, c, e) => {
-    bulmabox.params = bulmabox.sortParams(a, b, c, true, e);
-    const btns = bulmabox.getBtnData(bulmabox.params.op, 'confirm');
-    bulmabox.dialog(bulmabox.params.tt, bulmabox.params.ms, btns);
+    const theseParams = bulmabox.sortParams(a, b, c, true, e);
+    bulmabox.params.push(theseParams);
+    const btns = bulmabox.getBtnData(theseParams, 'confirm');
+    bulmabox.dialog(theseParams, btns);
 };
 
 bulmabox.prompt = (a, b, c, e) => {
-    bulmabox.params = bulmabox.sortParams(a, b, c, true, e);
-    bulmabox.params.ms += `<br>\n    <div class='field'>\n        <div class='control'>\n            <input type="text" id="bulmabox-diag-txt" class='input'>\n        </div>\n    </div>`;
-    const btns = bulmabox.getBtnData(bulmabox.params.op, 'prompt');
-    bulmabox.dialog(bulmabox.params.tt, bulmabox.params.ms, btns);
+    const theseParams = bulmabox.sortParams(a, b, c, true, e);
+    theseParams.ms += `<br>\n    <div class='field'>\n        <div class='control'>\n            <input type="text" id="bulmabox-diag-txt" class='input'>\n        </div>\n    </div>`;
+    bulmabox.params.push(theseParams);
+    const btns = bulmabox.getBtnData(theseParams, 'prompt');
+    console.log('prompt btns',btns)
+    bulmabox.dialog(theseParams, btns);
 };
 
 bulmabox.custom = (a, b, c, d, e) => {
     d = d || {};
     // console.log('custom d param',d)
-    bulmabox.params = bulmabox.sortParams(a, b, c, false, e);
+    const theseParams = bulmabox.sortParams(a, b, c, false, e)
+    bulmabox.params.push(theseParams);
     if (!d) {
         //no button(s) specified; create one
-        d = bulmabox.getBtnData(bulmabox.params.op, 'custom-default');
+        d = bulmabox.getBtnData(theseParams, 'custom-default');
     }
-    const btns = d;
-    bulmabox.dialog(bulmabox.params.tt, bulmabox.params.ms, btns);
+    const btns = d.replace('bulmabox.params.cb',`"${theseParams.id}"`);
+    console.log(btns, typeof btns)
+    bulmabox.dialog(theseParams, btns);
 };
 bulmabox.kill = (id) => {
-    // console.log('attempting to kill', id)
-    const el = document.querySelector('#' + id);
-    bulmabox.params = null;
+    console.log('attempting to kill', id)
+    const el = document.querySelector('#bulmabox-diag-' + id);
+    bulmabox.params = bulmabox.params.filter(q => q.id != id);
     el.parentNode.removeChild(el);
 };
-bulmabox.runCb = (cb, data, keepAlive) => {
-    cb(data);
+bulmabox.runCb = (id,data, keepAlive) => {
+    const params = bulmabox.params.find(q => q.id == id);
+    // const cb = params;
+    if (!!params.cb) {
+       params.cb(data);
+    }
+    console.log('ran (maybe) cb for',params,id)
+    //if keepAlive is true, we let the dialog stay open.
     if (keepAlive) return false;
-    bulmabox.kill('bulmabox-diag');
+    bulmabox.kill(id);
 };
 
 bulmabox.opts = (o) => {
@@ -413,14 +428,15 @@ bulmabox.opts = (o) => {
     }
 }
 
-bulmabox.dialog = (tt, msg, btns) => {
+bulmabox.dialog = (params, btns) => {
     //actual function to draw the dialog box, used by all 4(?) dialog generators including the custom one
-    // console.log('tt', tt, 'msg', msg, 'btns', btns)
+    // const theParams = bulmabox.params.find(q=>q.id==id);
+    const { tt, ms, id } = params;
+    console.log('tt', tt, 'ms', ms, 'btns', btns, 'id', id, 'params', params)
     const diagDiv = document.createElement('div');
     diagDiv.className = 'modal is-active';
-    diagDiv.id = 'bulmabox-diag';
-    // diagDiv.innerHTML = '\n<div class="modal-background" onclick=\'bulmabox.kill("' + diagDiv.id + '")\'></div>\n    <div class="modal-card">\n        <header class="modal-card-head">\n            <p class="modal-card-title">' + tt + '</p>\n            <button class="delete" aria-label="close" onclick=\'bulmabox.kill("' + diagDiv.id + '")\'></button>\n        </header>\n        <section class="modal-card-body">\n            ' + (msg || '') + '\n        </section>\n        <footer class="modal-card-foot">\n            ' + btns + '\n        </footer>\n    </div>\n\t';
-    const headr = msg ? `<header class="modal-card-head" style='background:${bulmabox.config.hfBg};${bulmabox.config.centr ? "text-align:center" : ''}'>
+    diagDiv.id = 'bulmabox-diag-' + id;
+    const headr = ms ? `<header class="modal-card-head" style='background:${bulmabox.config.hfBg};${bulmabox.config.centr ? "text-align:center" : ''}'>
     <p class="modal-card-title">${tt}</p>
     <button class="delete" aria-label='close' onclick="bulmabox.kill('${diagDiv.id}')"></button>
 </header>`: `<header class="modal-card-head has-background-white" style='background:${bulmabox.config.hfBg};${bulmabox.config.centr ? "text-align:center" : ''}'>
@@ -431,7 +447,7 @@ bulmabox.dialog = (tt, msg, btns) => {
     <div class="modal-card" style='top:10%;'>
     ${headr}
     <section class="modal-card-body" style='background: ${bulmabox.config.mainBg}'>
-        ${msg ? msg : tt}
+        ${ms ? ms : tt}
     </section>
     <footer class="modal-card-foot" style='background:${bulmabox.config.hfBg};${bulmabox.config.centr ? "text-align:center" : ''}'>
         ${btns}

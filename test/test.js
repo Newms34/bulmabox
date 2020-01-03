@@ -35,7 +35,7 @@ const doAlert = () => {
 }, doFont = () => {
     bulmabox.alert('Custom Font', `Sometimes the default font-family is boring. Don't worry; we got you covered!`, {
         okay: {
-            font:'Papyrus'
+            font: 'Papyrus'
         }
     })
 }, doGlobal = () => {
