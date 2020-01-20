@@ -21,6 +21,8 @@ Bulmabox is a bare-bones dialog box helper in the style of Bootstrap's Bootbox, 
 You may notice that bulmabox has recently been updated to version 7+. Despite the big semantic version change (6 to 7), there shouldn't be any *major* differences on your end. However, a lot of stuff in the machinery has been replaced/reorganized to make bulmabox more stream-lined. Stuff you *should* know:
  - You can now specify fonts. See below under `Special Notes` --> `Options` for details.
  - Button creation has been centralized. This *shouldn't* mean anything for you, but if anything breaks, please let me know via creating an issue!
+ - NOTE: I've removed `bower.json` from the repo, since practically no one uses that anymore (and neither should you!). 
+ - I've also included a `gulpfile.js` for those that wanna mess with bulmabox. 
 
 ----
 
