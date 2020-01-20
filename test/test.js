@@ -54,3 +54,18 @@ const doAlert = () => {
     bulmabox.opts({ reset: true });
     bulmabox.alert('Reset Globals', "Everything's back to normal!")
 };
+
+const doTestFn = () => {
+    bulmabox.confirm('Confirm One', '1: Click Okay to continue', function (r) {
+        if (!!r) {
+            bulmabox.confirm('Confirm Two', '2: Click Okay to continue', function (a) {
+                if (!!a) {
+                    return console.log('User clicked okay twice!')
+                }
+                console.log('User clicked okay once!')
+            })
+        }else{
+            console.log('User did not click okay at all')
+        }
+    })
+}

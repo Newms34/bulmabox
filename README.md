@@ -81,6 +81,7 @@ You can set global options for four parameters:
  * The header and footer background: `bulmabox.opts({hfBg:'red'})`
  * The main background: `bulmabox.opts({mainBg:'blue'})`
  * Centering the text in the header and footer: `bulmabox.opts({centr:true})`
+ * Verbose mode: Will log out a bunch of debug info to the console. Off by default: `bulmabox.opts({vb:true})` 
  You can reset all of this by just running `bulmabox.opts({reset:true})`. 
 
  Finally, you can override the global `window.alert()` method by running `bulmabox.opts({globalAlert:true})`.
