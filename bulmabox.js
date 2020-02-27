@@ -464,3 +464,7 @@ bulmabox.dialog = (params, btns) => {
 </div>`;
     document.body.append(diagDiv);
 };
+
+if(!!module){
+    module.exports = bulmabox;
+}

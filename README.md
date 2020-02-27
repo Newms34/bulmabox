@@ -22,7 +22,8 @@ You may notice that bulmabox has recently been updated to version 7+. Despite th
  - You can now specify fonts. See below under `Special Notes` --> `Options` for details.
  - Button creation has been centralized. This *shouldn't* mean anything for you, but if anything breaks, please let me know via creating an issue!
  - NOTE: I've removed `bower.json` from the repo, since practically no one uses that anymore (and neither should you!). 
- - I've also included a `gulpfile.js` for those that wanna mess with bulmabox. 
+ - I've also included a `gulpfile.js` for those that wanna mess with bulmabox.
+ - Small update: now exports as an ES6 module, so you can use it in build processes like `webpack` or `vue-cli`.
 
 ----
 
