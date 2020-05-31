@@ -466,6 +466,6 @@ bulmabox.dialog = (params, btns) => {
     document.body.append(diagDiv);
 };
 
-if(typeof module != 'undefined' && !!module.exports){
+if(typeof module != 'undefined' && !!module && !!module.exports){
     module.exports = bulmabox;
 }
