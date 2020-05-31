@@ -387,8 +387,9 @@ bulmabox.custom = (a, b, c, d, e) => {
     bulmabox.dialog(theseParams, btns);
 };
 bulmabox.kill = (id) => {
-    const el = document.querySelector('#bulmabox-diag-' + id);
+    const el = document.querySelector('#bulmabox-diag-' + id) || document.querySelector('#'+id);
     bulmabox.params = bulmabox.params.filter(q => q.id != id);
+    // console.log('ATTEMPTING KILL',id,el,document.querySelector('#'+id),document.querySelector('#bulmabox-diag-' + id))
     el.parentNode.removeChild(el);
 };
 bulmabox.runCb = (id,data, keepAlive) => {
@@ -464,3 +465,7 @@ bulmabox.dialog = (params, btns) => {
 </div>`;
     document.body.append(diagDiv);
 };
+
+if(typeof module != 'undefined' && !!module.exports){
+    module.exports = bulmabox;
+}

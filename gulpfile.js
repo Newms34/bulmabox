@@ -4,7 +4,6 @@ const gulp = require('gulp');
 // Include Our Plugins
 const jshint = require('gulp-jshint'),
     uglify = require('gulp-uglify'),
-    gutil = require('gulp-util'),
     rename = require('gulp-rename'),
     terser = require('gulp-terser'),
     // kid = require('child_process'),
