@@ -387,7 +387,7 @@ bulmabox.custom = (a, b, c, d, e) => {
     bulmabox.dialog(theseParams, btns);
 };
 bulmabox.kill = (id) => {
-    console.log('ATTEMPTING KILL',id,'FULL ID','#bulmabox-diag-' + id)
+    bulmabox.vrb('ATTEMPTING KILL',id,'FULL ID','#bulmabox-diag-' + id)
     const el = document.querySelector('#bulmabox-diag-' + id) || document.querySelector('#'+id);
     bulmabox.params = bulmabox.params.filter(q => q.id != id);
     el.parentNode.removeChild(el);
