@@ -381,15 +381,15 @@ bulmabox.custom = (a, b, c, d, e) => {
         //no button(s) specified; create one
         d = bulmabox.getBtnData(theseParams, 'custom-default');
     }
-    const btns = d.replace('bulmabox.params.cb',`"${theseParams.id}"`);
+    const btns = d.replace(new RegExp('bulmabox.params.cb','g'),`"${theseParams.id}"`).replace(new RegExp('bulmabox-diag','g'),`${theseParams.id}`);
     bulmabox.vrb('prompt btns',btns);
     // bulmabox.vrb('custom d param',d)
     bulmabox.dialog(theseParams, btns);
 };
 bulmabox.kill = (id) => {
+    console.log('ATTEMPTING KILL',id,'FULL ID','#bulmabox-diag-' + id)
     const el = document.querySelector('#bulmabox-diag-' + id) || document.querySelector('#'+id);
     bulmabox.params = bulmabox.params.filter(q => q.id != id);
-    // console.log('ATTEMPTING KILL',id,el,document.querySelector('#'+id),document.querySelector('#bulmabox-diag-' + id))
     el.parentNode.removeChild(el);
 };
 bulmabox.runCb = (id,data, keepAlive) => {
